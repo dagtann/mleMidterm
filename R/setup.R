@@ -1,3 +1,5 @@
+rm(list = ls())
+
 if(Sys.info()['user']=='dag') {
   pathScript <- '~/gitreps/mleMidterm/R'
 }
@@ -6,7 +8,7 @@ library('MASS')
 set.seed(6886)
 
 ## --- setup random data ----------------------------------------
-N <- 10
+N <- 100
 mu <- c(0, 0, 0)
 sigma <- matrix(
   c(
@@ -17,7 +19,17 @@ sigma <- matrix(
   byrow = TRUE, ncol = 3
 )
 dta <- data.frame(mvrnorm(N, mu, sigma))
-summary(dta)
-reference <- lm(dta[, 1] ~ dta[, 2] + dta[, 3], data = dta)
-## --------------------------------------------------------------
+colnames(dta) <- c('x', 'y', 'z')
+#summary(dta)
+reference <- lm(y ~ x + z, data = dta)
+## --- load ols function ----------------------------------------
+source(file.path(pathScript, 'olsFunc.R'))
+## --- test run -------------------------------------------------
+form <- formula(y ~ x + z)
+model <- ols(formula = form, data = dta)
+model$coefficients                                 ## output okay
+model$varcov                                       ## output okay
+model$Rsq                                          ## output okay
+model$Fstat                                        ## output okay
+summary(reference); confint(reference)         ## comparison okay
 ## END
