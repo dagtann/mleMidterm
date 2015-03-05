@@ -1,16 +1,24 @@
-ols <- function(formula, data){  
-  ## Input objects
-  X <- as.matrix(cbind(1, data[, all.vars(formula)[-1]]))
-  Y <- as.vector(data[, all.vars(formula)[1]])
-  n <- length( apply(X, 1, function(x){ all(!is.na(x)) }) )
+ols <- function(formula, data, impute = FALSE){
+  ## Data Input Objects
+  dta <- data[, all.vars(formula)]
+  n.org <- nrow(dta)
+  if(impute == TRUE){             ## imputation flag and response
+    dta <-  Amelia::amelia(dta, m = 1)[['imputations']][['imp1']]
+  }
+  dta <- na.omit(dta)              ## listwise deletion otherwise
+  X <- as.matrix(cbind(1, dta[, all.vars(formula)[-1]]))
+  Y <- as.vector(dta[, all.vars(formula)[1]])
+  n <- nrow(dta)
+  n.mis <- n.org-n                  ## test loop response to flag
   degFree <- n-ncol(X)
   
   ## Define output object
   output <- list(
-    coefficients = matrix(NA, nrow = ncol(X), ncol = 6),     # betas
-    varcov = matrix(NA, nrow = ncol(X), ncol = ncol(X)), # vcov beta
-    Rsq = vector(length = 1),                                  # Rsq
-    Fstat = vector(length = 1)                         # F-Statistic
+    coefficients = matrix(NA, nrow = ncol(X), ncol = 6),  # betas
+    varcov = matrix(NA, nrow = ncol(X), ncol = ncol(X)), # vcov b
+    Rsq = vector(length = 1),                               # Rsq
+    Fstat = vector(length = 1),                     # F-Statistic
+    n.mis = n.mis
   )
   colnames(output[['coefficients']]) <- c(
     'Estimate', 'Std. Error', 't Value', 'Pr(>|t|)', 
