@@ -9,7 +9,7 @@
   bookmarksopenlevel=section
 ]{hyperref}
 \hypersetup{
-  pdfauthor = {\textcopyright\ Dag Tanneberg},
+  pdfauthor = {},
   bookmarksnumbered = true,
   bookmarksopen = false,
   colorlinks = true,
