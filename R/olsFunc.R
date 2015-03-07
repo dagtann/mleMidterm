@@ -1,15 +1,17 @@
 ols <- function(formula, data, impute = FALSE){
   ## Data Input Objects
   dta <- data[, all.vars(formula)]
-  n.org <- nrow(dta)
+  # n.org <- nrow(dta)       ## test loop response to impute flag
   if(impute == TRUE){             ## imputation flag and response
     dta <-  Amelia::amelia(dta, m = 1)[['imputations']][['imp1']]
+    dta <- na.omit(dta)       ## if there are still missing cases
+  } else {
+    dta <- na.omit(dta)            ## listwise deletion otherwise
   }
-  dta <- na.omit(dta)              ## listwise deletion otherwise
   X <- as.matrix(cbind(1, dta[, all.vars(formula)[-1]]))
   Y <- as.vector(dta[, all.vars(formula)[1]])
   n <- nrow(dta)
-  n.mis <- n.org-n                  ## test loop response to flag
+  # n.mis <- n.org-n         ## test loop response to impute flag
   degFree <- n-ncol(X)
   
   ## Define output object
@@ -18,10 +20,11 @@ ols <- function(formula, data, impute = FALSE){
     varcov = matrix(NA, nrow = ncol(X), ncol = ncol(X)), # vcov b
     Rsq = vector(length = 1),                               # Rsq
     Fstat = vector(length = 1),                     # F-Statistic
-    n.mis = n.mis
+    data = dta
+  #  , n.mis = n.mis         ## test loop response to impute flag
   )
   colnames(output[['coefficients']]) <- c(
-    'Estimate', 'Std. Error', 't Value', 'Pr(>|t|)', 
+    'Estimate', 'Std. Error', 'T-Statistic', 'P-Value', 
     'Lower 95% CI', 'Upper 95% CI'
   )
   rownames(output[['coefficients']]) <- c('(Intercept)', 
@@ -41,11 +44,11 @@ ols <- function(formula, data, impute = FALSE){
   rownames(output[['varcov']]) <- c('(Intercept)', colnames(X)[-1])
   colnames(output[['varcov']]) <- c('(Intercept)', colnames(X)[-1])
 
-  ## Coefficient SE, t-values and p-values
+  ## Define 1. Coefficient SE, 2. t-values, and 3. p-values
   output[['coefficients']][, 2] <- sqrt(diag(output[['varcov']]))
   output[['coefficients']][, 3] <- output[['coefficients']][, 1] / 
     output[['coefficients']][, 2]
-  output[['coefficients']][, 4] <- sapply(
+  output[['coefficients']][, 4] <- sapply( ## return vec of pvals
     output[['coefficients']][, 3], function(x) { 
       2*(1-pt(abs(x), df = degFree)) 
     }
@@ -76,5 +79,7 @@ ols <- function(formula, data, impute = FALSE){
     (ncol(X)-1), 'and', n-ncol(X), 'DF, p-value:', 
     format(round(pval, digits = 3), nsmall = 3), sep = ' '
   )
+
   return(output)
 }
+## End
