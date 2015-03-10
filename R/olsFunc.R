@@ -37,7 +37,8 @@ ols <- function(formula, data, impute = FALSE){
   ## Model fit basics
   fitted <- X%*%output[['coefficients']][, 1]
   residuals <- fitted-Y
-  sigma2 <- sum(residuals^2)/degFree
+  sigma2 <- 1/degFree*sum(diag(residuals%*%t(residuals)))
+  ## sum(residuals^2)/degFree
   
   ## Regressor Variance-Covariance Matrix
   output[['varcov']] <- sigma2*solve(t(X)%*%X)

@@ -1,4 +1,4 @@
-\documentclass[draft=true,parskip=half]{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
+\documentclass{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -48,9 +48,9 @@
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
-\title{Spring 2015 POLSCI.733 MLE}
-\subtitle{Midterm Examination}
-\author{}
+\title{Spring 2015 POLSCI.733 MLE Midterm}
+\author{Dag Tanneberg}
+\date{}
 
 \usepackage[
   pdftex, 
@@ -58,7 +58,8 @@
   bookmarksopenlevel=section
 ]{hyperref}
 \hypersetup{
-  pdfauthor = {\textcopyright\ Dag Tanneberg},
+  pdftitle = {Midterm Examination Tanneberg}
+  pdfauthor = {Dag Tanneberg},
   bookmarksnumbered = true,
   bookmarksopen = false,
   colorlinks = true,
@@ -68,7 +69,7 @@
 }
 
 \usepackage{scrpage2}
-\lohead{}
+\lohead{Dag Tanneberg}
 \cohead{MLE Midterm}
 \rohead{March 17, 2015}
 \cfoot{\bfseries\pagemark}
@@ -85,21 +86,74 @@
 
 \maketitle
 
- \begin{figure}[!htb]
-     \centering
-     \caption{Demonstrating the effect of missing data}
-     \begin{minipage}{.49\textwidth}
-         \centering
-         \includegraphics[scale = .4]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/slopePlotELF.pdf}
-     \end{minipage}%
-     \hfill
-     \begin{minipage}{.49\textwidth}
-         \centering
-         \includegraphics[scale=.4]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/slopePlotPolity2.pdf}
-     \end{minipage}\\
-\footnotesize{%
- $\bullet$ No missing data $\blacktriangle$ Listwise deletion
- $\blacksquare$ Single Amelia 2 imputation%
-}
+Missing data poses severe problems to regression analysis. 
+At the very least it diminishes estimation efficiency, 
+because less observations are available for analysis. More 
+importantly, however, already a small amount of missing data 
+may bias regression results severely if missingness is not 
+completely unrelated to the observed data and the parameters to 
+be estimated (Missing Completely At Random, MCAR). Using the 
+example regression of standardized net income inequality on 
+ethnic fractionalization and regime type (Polity 2) this effect
+becomes readily apparent from Figure \ref{fig:spaghettiPlots}. 
+Each panel compares the estimated slope for either predictor 
+under different states of missingness. Solid lines 
+denote the partial effect without any missing data, 
+shaded lines represent estimated slopes from $100$ Amelia 
+imputations. Patterned lines denote the partial effect of either 
+predictor under list wise deletion respectively averaged over all
+Amelia imputations. Finally, the obligatory seed $6886$ is 
+given by a dotted line.
+
+Under full information the estimated coefficient for ethnic 
+fractionalization is $2.01$ and statistically significant at the
+conventional $.95$ level. Hence, judging from the sample higher 
+ethnic heterogeneity tends to be associated with higher inequality. 
+The reverse holds for political regime type because the partial 
+effect for Polity 2 is $-0.096$ and not statistically 
+significant. Although higher levels of democracy tend to concur 
+with lower levels of inequality this observation should not be 
+generalized from the sample. The pattern of missing data 
+systematically biases these results and the bias depends on the 
+strategy employed to deal with missingness. 
+
+List wise deletion attenuates the effect of ethnic 
+fractionalization and renders it statistically insignificant 
+(Est.: $.80$, Std. Error: $.44$). In contrast, the coefficient on
+Polity 2 increases in absolute size and becomes statistically 
+significant (Est.: $-.16$, Std. Error: $0.05$). Thus, list wise 
+deletion reverts the `true' process in the data. Multiple 
+imputation ranks as a best practice alternative of list wise 
+deletion. However, using the obligatory settings it
+actually makes things worse because it confirms the results from 
+list wise deletion and increases the bias 
+(Ethnic fractionalization: Est.: $0.33$, Std. Error:
+$0.45$; Polity 2: Est. $-0.29$, Std. Error: $0.04$). This 
+perverse result neither depends on the random seed nor on the 
+number of imputations as can be seen from the shaded lines. 
+Rather, while list wise deletion ignores any causal process that 
+might introduce missingness, multiple imputation fails to tap into
+it in this exercise.
+
+In conclusion, given non-MCAR data list wise deletion will 
+yield misleading results, but multiple imputation may offer 
+little improvement if it is not tailored to fit the process 
+that induces missingness.
+
+\afterpage{
+\begin{figure}[!htb]
+  \centering
+  \caption{Demonstrating the effect of missing data}
+  \label{fig:spaghettiPlots}
+  \begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[scale =.75]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiELF.pdf}
+  \end{minipage}\\
+  \vfill
+  \begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[scale=.75]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiPolity.pdf}
+  \end{minipage}
 \end{figure}
+}
 \end{document}

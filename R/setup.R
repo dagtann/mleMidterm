@@ -35,6 +35,7 @@ source(file.path(pathScript, 'olsFunc.R'))
 ## --- test run -------------------------------------------------
 form <- formula(y ~ x + z)
 
+ols(form, data = dta)
 modelListDel <- ols(form, data = dta)
 set.seed(6886); modelImpDta <- ols(form, data = dta, impute = TRUE)
 
@@ -60,6 +61,7 @@ summary(data); summary(dataMiss)
 
 form <- formula(gini_net_std ~ ELF_ethnic + polity2)
 model <- ols(formula=form, data=data)
+modelReference <- lm(formula = form, data = data)
 modelListDel <- ols(formula = form, data=dataMiss)
 set.seed(6886); 
 modelAmelia <- ols(formula = form, data=dataMiss, impute=TRUE)
@@ -76,4 +78,6 @@ model[['coefficients']][, 1]; coef(lm(form, data = data))
 ## --- produce plot output --------------------------------------
 source(file.path(pathScript, 'slopePlotELF.R'))
 source(file.path(pathScript, 'slopePlotPolity2.R'))
+source(file.path(pathScript, 'spaghettiPolity2.R'))
+source(file.path(pathScript, 'spaghettiELF.R'))
 ## END
