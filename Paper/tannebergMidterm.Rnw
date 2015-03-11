@@ -32,88 +32,85 @@
 \usepackage{lscape}
 \usepackage{afterpage}
 
-\begin{document}
+\begin{document} 
+
 <<chunkOptions, echo=FALSE>>=
-opts_chunk$set(
- comment="", error=TRUE, warning=FALSE, message=FALSE,
- tidy=FALSE, cache=FALSE, echo=FALSE, out.width='\\textwidth',
- fig.width=7, fig.height=7/1.618, fig.align="center",
- results = 'hide'
-)
+opts_chunk$set(  comment="", error=TRUE, warning=FALSE,
+message=FALSE,  tidy=FALSE, cache=FALSE, echo=FALSE,
+out.width='\\textwidth',  fig.width=7, fig.height=7/1.618,
+fig.align="center",  results = 'hide' ) 
 @
+
 <<setupEverything>>=
-source('/home/dag/gitreps/mleMidterm/R/setup.R')
+source('/home/dag/gitreps/mleMidterm/R/setup.R') 
 @
-\maketitle
 
-Missing data poses severe problems to regression analysis. 
-At the very least it diminishes estimation efficiency, 
-because less observations are available for analysis. More 
-importantly, however, already a small amount of missing data 
-may bias regression results severely if missingness is not 
-completely unrelated to the observed data and the parameters to 
-be estimated (Missing Completely At Random, MCAR). Using the 
-example regression of standardized net income inequality on 
-ethnic fractionalization and regime type (Polity 2) this effect
-becomes readily apparent from Figure \ref{fig:spaghettiPlots}. 
-Each panel compares the estimated slope for either predictor 
-under different states of missingness. Solid lines 
-denote the partial effect without any missing data, 
-shaded lines represent estimated slopes from $100$ Amelia 
-imputations. Patterned lines denote the partial effect of either 
-predictor under list wise deletion respectively averaged over all
-Amelia imputations. Finally, the obligatory seed $6886$ is 
-given by a dotted line.
+\maketitle 
+\thispagestyle{scrheadings} 
 
-Under full information the estimated coefficient for ethnic 
-fractionalization is $2.01$ and statistically significant at the
-conventional $.95$ level. Hence, judging from the sample higher 
-ethnic heterogeneity tends to be associated with higher inequality. 
-The reverse holds for political regime type because the partial 
-effect for Polity 2 is $-0.096$ and not statistically 
-significant. Although higher levels of democracy tend to concur 
-with lower levels of inequality this observation should not be 
-generalized from the sample. The pattern of missing data 
-systematically biases these results and the bias depends on the 
-strategy employed to deal with missingness. 
 
-List wise deletion attenuates the effect of ethnic 
-fractionalization and renders it statistically insignificant 
-(Est.: $.80$, Std. Error: $.44$). In contrast, the coefficient on
-Polity 2 increases in absolute size and becomes statistically 
-significant (Est.: $-.16$, Std. Error: $0.05$). Thus, list wise 
-deletion reverts the `true' process in the data. Multiple 
-imputation ranks as a best practice alternative of list wise 
-deletion. However, using the obligatory settings it
-actually makes things worse because it confirms the results from 
-list wise deletion and increases the bias 
-(Ethnic fractionalization: Est.: $0.33$, Std. Error:
-$0.45$; Polity 2: Est. $-0.29$, Std. Error: $0.04$). This 
-perverse result neither depends on the random seed nor on the 
-number of imputations as can be seen from the shaded lines. 
-Rather, while list wise deletion ignores any causal process that 
-might introduce missingness, multiple imputation fails to tap into
-it in this exercise.
-
-In conclusion, given non-MCAR data list wise deletion will 
-yield misleading results, but multiple imputation may offer 
-little improvement if it is not tailored to fit the process 
-that induces missingness.
+Missing data generates severe problems for regression
+analysis. At the very least it diminishes efficiency because
+less data is available for parameter estimation. More
+importantly, already small amounts of missing data may bias
+regression results if missingness is not completely at
+random (MCAR), i.e. unrelated to the observed data and the
+parameters to be estimated. Using the example regression of
+standardized net income inequality on ethnic
+fractionalization and regime type (Polity 2) this effect
+becomes readily apparent from Figure
+\ref{fig:spaghettiPlots}. Each panel compares the estimated
+slope for either predictor under different regimes of
+missingness.\footnote{In each panel the alternative
+predictor has been held constant at the mean of the complete
+data.} Solid lines capture the partial effect without
+missing data, shaded lines represent estimated slopes from
+$100$ Amelia  imputations. Dashed lines report the partial
+effect of either  predictor under list wise deletion
+respectively averaged over all Amelia imputations. Finally,
+the obligatory seed $6886$ is given by a dotted line. Figure
+\ref{fig:spaghettiPlots} demonstrates the grave consequences
+of misguided missing data management.
 
 \afterpage{
-\begin{figure}[!htb]
-  \centering
-  \caption{Demonstrating the effect of missing data}
-  \label{fig:spaghettiPlots}
-  \begin{minipage}{\textwidth}
+  \begin{figure}[t]
     \centering
-    \includegraphics[scale =.75]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiELF.pdf}
-  \end{minipage}\\
-  \vfill
-  \begin{minipage}{\textwidth}
-    \centering
-    \includegraphics[scale=.75]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiPolity.pdf}
-  \end{minipage}
-\end{figure}
+    \caption{The impact of missing data on regression results}
+    \label{fig:spaghettiPlots}
+    \includegraphics[scale =.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiELF.pdf} \\
+    \includegraphics[scale=.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiPolity.pdf}
+  \end{figure}
 }
+
+Under full information the estimated coefficient for ethnic
+fractionalization is $2.01$ and statistically significant at
+the conventional $.95$ level. Hence, judging from the sample
+higher ethnic heterogeneity tends to be associated with
+higher inequality. The reverse holds for Polity 2 because
+the partial effect of $-0.096$ is not statistically
+significant. Although higher levels of democracy tend to
+concur with lower levels of inequality this observation
+might not travel beyond the sample. The pattern of missing
+data systematically biases these results. Thereby the
+amount, but not direction, of bias depends on the management
+of missing data.
+
+List wise deletion attenuates the effect of ethnic
+fractionalization and renders it statistically insignificant
+(Est.: $.80$, Std. Er.: $.44$). In contrast, the
+coefficient on Polity 2 increases in absolute size and
+becomes statistically significant (Est.: $-.16$, Std. Er.:
+$0.05$). Thus, list wise deletion misrepresents the `true'
+data generating process dramatically. Multiple imputation
+ranks as a best practice alternative to list wise deletion.
+However, using the obligatory settings for this examination
+things turn from bad to worse. Using seed $6886$ Amelia 
+confirms the results from list wise deletion and it 
+increases the bias (Ethnic fractionalization: Est.: $0.33$, 
+Std. Er.: $0.45$; Polity 2: Est. $-0.29$, Std. Er.: $0.04$).
+As can be seen from the shaded lines this perverse result 
+depends neither on the random seed nor on the number of 
+imputations. Rather, while list wise deletion generally 
+abstracts from any causal process introducing missingness, 
+multiple imputation fails to tap into it in this exercise.
 \end{document}
