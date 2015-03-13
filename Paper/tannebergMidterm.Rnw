@@ -1,6 +1,11 @@
 \documentclass{scrartcl}
 \title{Spring 2015 POLSCI.733 MLE Midterm}
-\author{Dag Tanneberg}
+\author{Dag Tanneberg\thanks{%
+    All code from this exam will be
+    published on March 18 at
+    \url{https://github.com/dagtann/mleMidterm}.%
+  }
+}
 \date{}
 
 \usepackage[
@@ -48,7 +53,6 @@ source('/home/dag/gitreps/mleMidterm/R/setup.R')
 \maketitle 
 \thispagestyle{scrheadings} 
 
-
 Missing data generates severe problems for regression
 analysis. At the very least it diminishes efficiency because
 less data is available for parameter estimation. More
@@ -68,9 +72,7 @@ missing data, shaded lines represent estimated slopes from
 $100$ Amelia  imputations. Dashed lines report the partial
 effect of either  predictor under list wise deletion
 respectively averaged over all Amelia imputations. Finally,
-the obligatory seed $6886$ is given by a dotted line. Figure
-\ref{fig:spaghettiPlots} demonstrates the grave consequences
-of misguided missing data management.
+the obligatory seed $6886$ is given by a dotted line.
 
 \afterpage{
   \begin{figure}[t]
@@ -112,5 +114,6 @@ As can be seen from the shaded lines this perverse result
 depends neither on the random seed nor on the number of 
 imputations. Rather, while list wise deletion generally 
 abstracts from any causal process introducing missingness, 
-multiple imputation fails to tap into it in this exercise.
+multiple imputation may fail to tap into it. It is hence no
+guarantee for improved inference.
 \end{document}
