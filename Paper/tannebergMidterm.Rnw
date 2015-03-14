@@ -1,9 +1,9 @@
 \documentclass{scrartcl}
 \title{Spring 2015 POLSCI.733 MLE Midterm}
 \author{Dag Tanneberg\thanks{%
-    All code from this exam will be
-    published on March 18 at
-    \url{https://github.com/dagtann/mleMidterm}.%
+    All code produced during this exam will be available 
+    from \url{https://github.com/dagtann/mleMidterm}
+    by March 18, 2015.
   }
 }
 \date{}
@@ -31,11 +31,13 @@
 \cfoot{\bfseries\pagemark}
 \pagestyle{scrheadings}
 
+\usepackage[hang]{footmisc}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
+
 \usepackage{graphicx}
-\usepackage{lscape}
-\usepackage{afterpage}
+
 
 \begin{document} 
 
@@ -61,28 +63,26 @@ regression results if missingness is not completely at
 random (MCAR), i.e. unrelated to the observed data and the
 parameters to be estimated. Using the example regression of
 standardized net income inequality on ethnic
-fractionalization and regime type (Polity 2) this effect
-becomes readily apparent from Figure
-\ref{fig:spaghettiPlots}. Each panel compares the estimated
-slope for either predictor under different regimes of
-missingness.\footnote{In each panel the alternative
-predictor has been held constant at the mean of the complete
-data.} Solid lines capture the partial effect without
-missing data, shaded lines represent estimated slopes from
-$100$ Amelia  imputations. Dashed lines report the partial
-effect of either  predictor under list wise deletion
-respectively averaged over all Amelia imputations. Finally,
-the obligatory seed $6886$ is given by a dotted line.
+fractionalization and democracy (Polity 2) this is visible
+from Figure \ref{fig:spaghettiPlots}. Each panel compares
+the estimated slope for either predictor under different
+regimes of missingness.\footnote{In each panel the
+alternative predictor has been held constant at the mean of
+the complete data.} Solid lines capture the partial effect
+without missing data, shaded lines represent estimated
+slopes from $100$ Amelia  imputations. Dashed lines report
+the partial effect of either  predictor under list wise
+deletion respectively averaged over all Amelia imputations.
+Finally, the obligatory seed $6886$ is given by a dotted
+line.
 
-\afterpage{
-  \begin{figure}[t]
-    \centering
-    \caption{The impact of missing data on regression results}
-    \label{fig:spaghettiPlots}
-    \includegraphics[scale =.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiELF.pdf} \\
-    \includegraphics[scale=.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiPolity.pdf}
-  \end{figure}
-}
+\begin{figure}[t]
+  \centering
+  \caption{The impact of missing data on regression results}
+  \label{fig:spaghettiPlots}
+  \includegraphics[scale =.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiELF.pdf} \\
+  \includegraphics[scale=.8]{/home/dag/Dropbox/Buero/Dissertation/2015/duke/classes/mle/midterm/out/spaghettiPolity.pdf}
+\end{figure}
 
 Under full information the estimated coefficient for ethnic
 fractionalization is $2.01$ and statistically significant at

@@ -1,3 +1,4 @@
+## --- Setup scenario data --------------------------------------
 scen.data <- cbind(
   1, 
   ELF_ethnic = seq(
@@ -8,6 +9,7 @@ scen.data <- cbind(
   polity2 = mean(data[, 'polity2'])
 )
 
+## --- Impute data & save coefficients --------------------------
 N <- 100
 set.seed(6886)
 seeds <- sample(1000:10000, N)
@@ -93,3 +95,4 @@ theme(
 ggsave(plot = p, file = file.path(pathOut, 'spaghettiELF.pdf'),
   width = 7, height = 7/1.618, dpi = 1200, family = 'serif'
 )
+##END

@@ -1,14 +1,13 @@
-## --- Produce spaghetti plot for amelia results
-## --- Setup simulation data -------------------------------
+## --- Setup simulation data ------------------------------------
 scen.data <- cbind(
   1, ELF_ethnic = mean(data[, 'ELF_ethnic']),
   polity2 = seq(4, 10, 1)
 )
 
-## --- Impute data & save coefficients ---------------------
+## --- Impute data & save coefficients --------------------------
 N <- 100
 set.seed(6886)
-seeds <- sample(1000:10000, N) ## reproducible seeds for Amelia
+seeds <- sample(1000:10000, N)   ## reproducible seeds for Amelia
 seeds[1] <- 6886
 coefs <- matrix(NA, nrow = 3, ncol = N, 
   dimnames = list(
@@ -90,3 +89,4 @@ theme(
 ggsave(plot = p, file = file.path(pathOut, 'spaghettiPolity.pdf'),
   width = 7, height = 7/1.618, dpi = 1200, family = 'serif'
 )
+##
